@@ -40,6 +40,7 @@ input::-webkit-inner-spin-button{
     -webkit-appearance: none !important;  
     margin: 0;  
 }
+h1,h2,h3,h4{margin: 0 }
 .l{ float: left;}
 .r{ float: right;}
 .gray{ color: #999}
@@ -63,7 +64,7 @@ input::-webkit-inner-spin-button{
 .white{ color: #fff}
 .border-t10{ border-top: 10px solid #f5f5f5}
 .border-b10{ border-bottom: 10px solid #f5f5f5}
-
+.border-b{ border-bottom: 1px solid #f5f5f5}
 .el-button--primary.is-active, .el-button--primary:active {
     background: #f7c36d;
     border-color: #f7c36d;
@@ -123,13 +124,13 @@ input::-webkit-inner-spin-button{
 color: #fff}
 
 /* 通用提示黑框 */
-.comomtips{  position: fixed;padding: 10px 30px;border-radius: 6px;top: 20%;left:40%;z-index: 9999;background: rgba(0,0,0,0.5);
-    color: #fff}
-
+.comomtips{  position: fixed;padding: 10px 15px;border-radius: 6px;top: 40%;left:40%;z-index: 9999;background: rgba(0,0,0,0.5);
+    color: #fff;line-height: 2;z-index: 999999;}
+    .el-icon-loading{ font-size: 18px; margin-right: 5px; }
 .el-dialog__body{    padding: 15px 0;}
 
 //登录注册页
-.login_bg{ background: url("../images/login_bg.png") no-repeat center; background-size: cover;height: 100%;}
+.login_bg{ background: url("../images/login_bg.jpg") no-repeat center; background-size: cover;min-height:100%}
 .login_bg{
     .el-input__inner{ background: none;color: #fff }
     .el-form-item__label{ color: #fff }
@@ -162,3 +163,28 @@ color: #fff}
 .gray_right{background: url("../images/gray_right.png") no-repeat; background-size: contain; width: 18px; height:18px; display: inline-block;
     right: 0; top: 13px; position:absolute }
     .transfer.popContainer .el-input.pr30 input{padding-right: 30px;}
+
+//交易完成提示
+.el-icon-circle-check{ font-size: 60px; color: #359e3d}
+.finish_tip{ border-bottom: 1px solid #f1f1f1; padding: 30px 0;}
+.finish_tip span{ line-height: 60px;display: inline-block;height: 60px;vertical-align: top;margin-left:5px;font-size: 22px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

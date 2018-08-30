@@ -39,13 +39,7 @@
 						
 						 <el-input v-model="form.detailaddress"   type="textarea" :rows="2" ></el-input>
 					</el-form-item>
-					<el-upload
-						action="https://jsonplaceholder.typicode.com/posts/"
-						list-type="picture-card"
-						:on-preview="handlePictureCardPreview"
-						:on-remove="handleRemove">
-						<i class="el-icon-plus"></i>
-					</el-upload>
+				
 					<el-dialog :visible.sync="dialogVisible">
 					<img width="100%" :src="dialogImageUrl" alt="">
 					</el-dialog>
@@ -106,7 +100,7 @@
                     var formData= JSON.stringify(this.form); // 获取表单数据并转为json数组
                     var params  = new URLSearchParams();
 					params.append('datas', formData);
-					 this.$http.post("/api/user/authentication",params, {
+					 this.$http.post("/user/authentication",params, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }
@@ -173,7 +167,7 @@
 		}
 	}
 </script>
-<style>
+<style >
 
   .distpicker-address-wrapper{
     height: 50%;
@@ -187,9 +181,9 @@
     position: fixed;
     bottom: 50%;
     width: 100%;
-border-radius: 10px 10px 0 0;background-color: #f5f5f5
+border-radius: 10px 10px 0 0;background-color: #f7d08e
   }
-
+.distpicker-address-wrapper .address-header ul li{ color: #fff}
 .address-header ul li{
     flex-grow: 1;
     text-align: center;
@@ -202,8 +196,9 @@ border-radius: 10px 10px 0 0;background-color: #f5f5f5
     overflow: auto;
     height: 100%;
 }
-.distpicker-address-wrapper .address-header ul li.active{ border-bottom: none}
+.distpicker-address-wrapper .address-header ul li.active{ border-bottom: none;color: #333}
 .distpicker-address-wrapper .address-container{ background: #fff} 
+.distpicker-address-wrapper .address-container ul li{ color: #666}
 .el-textarea__inner{ border: none}
 /* 遮罩层 */
 .popContainer{

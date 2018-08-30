@@ -65,7 +65,7 @@
 		methods:{
 			onSubmit(formName) {
 					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-					 this.$http.post("/api/count/scanPay",formData, {
+					 this.$http.post("/count/scanPay",formData, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }

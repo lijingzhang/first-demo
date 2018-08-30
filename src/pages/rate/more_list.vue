@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     loadData() {
-          this.$http.get('/api/rate/queryAll').then(res => {
+          this.$http.get('/rate/queryAll').then(res => {
                     var result = res.data;
                     var lenth=result.length;
                     var dataArr=result[lenth-1];

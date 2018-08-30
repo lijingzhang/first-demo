@@ -16,7 +16,7 @@
                     <b>{{type}}</b>
                     <i ></i>
                 </el-col>
-                <el-col :span="17" ><input type="text" class="w100 tr" v-model="items.num" ref="num"></el-col>
+                <el-col :span="17" ><input type="number" class="w100 tr" v-model="items.num" ref="num"></el-col>
             </el-row>  
         </div>
         <div class="list_group">
@@ -47,8 +47,8 @@
             <div slot="header" class="clearfix">
                 <span>选择货币类型</span>
             </div>
-            <div  v-for="item in countArr" class="text item" @click="countype({item})">
-                {{item}}
+           <div  v-for="(item, idx) in countArr" :key="idx" class="text item" @click="countype(idx)">
+                {{idx | countType}}
             </div>
               <div class="mt15 w100 blue " @click="isShow=false">取消</div>
         </el-card>
@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     loadData() {
-          this.$http.get('/api/rate/queryAll').then(res => {
+          this.$http.get('/rate/queryAll').then(res => {
             var result = res.data;
             var lenth=result.length;
             var dataArr=result[lenth-1].USDCNY;
@@ -118,7 +118,7 @@ export default {
          this.isShow=!this.isShow;
     },
       loadcountType(){
-         this.$http.get('/api/count/queryMoneyType').then(response => {
+         this.$http.get('/count/queryMoneyType').then(response => {
                 this.countArr=response.data;
             })
             .catch(error=>{
@@ -128,8 +128,8 @@ export default {
 				
       },
       countype(types){
-          if(this.type!=types.item){
-            this.type=types.item;
+          if(this.type!=types){
+            this.type=types;
             var inputval=this.$refs.num.value;
            if(this.type=='CNY'){
                 this.cny=inputval*1;

@@ -7,9 +7,17 @@
          <el-main>
             <div class="list_group">
                 <div class="list_item" >
-                    <router-link to="/authentication">
+                    <router-link to="/setpsw">
                         <el-row>
-                            <el-col :span="22" >密码管理</el-col>
+                            <el-col :span="22" >登录密码管理</el-col>
+                            <el-col :span="2" class="tr"><i class="el-icon-arrow-right"></i></el-col>
+                        </el-row>  
+                    </router-link>
+                </div>
+                 <div class="list_item" >
+                    <router-link to="/paypsw">
+                        <el-row>
+                            <el-col :span="22" >支付密码管理</el-col>
                             <el-col :span="2" class="tr"><i class="el-icon-arrow-right"></i></el-col>
                         </el-row>  
                     </router-link>
@@ -55,7 +63,7 @@ export default {
             showClose:false,
             showCancelButton:true,
            }).then(() => {
-            this.$http.post("/api/user/logout",null, {
+            this.$http.post("/user/logout",null, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }

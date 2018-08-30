@@ -83,8 +83,6 @@
                 },
                 cardid:'',
                 countType:'',
-			
-                  centerDialogVisible: false,
                 Show:false,
                  isShow:false,
                  countArr:[],
@@ -101,8 +99,9 @@
 		methods: {
 			onSubmit(formName) {
                 this.form.receivecount=this.$route.query.receivecount; //上个页面传递下来的对方账户参数
-					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-					 this.$http.post("/api/count/switch",formData, {
+                    var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
+                     const params  = {moneynum: this.form.moneynum, receivecount: this.form.receivecount,countid:this.form.countid,payPwd:this.form.payPwd}
+					 this.$http.get("/count/switch",{params:params}, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }
@@ -110,15 +109,19 @@
                   .then(response=>{
                       this.Show=false;
                         if(response.data.code=='success'){
-                          this.$confirm("转账成功！", '提示', {
-                                confirmButtonText: '确定',
-                                center: true,
-                                showClose:false,
-                                showCancelButton:false
-                            })
-                            .then(() => {
-                                this.$router.push("/trade_log")
-                            })
+                        //   this.$confirm("转账成功！", '提示', {
+                        //         confirmButtonText: '确定',
+                        //         center: true,
+                        //         showClose:false,
+                        //         showCancelButton:false
+                        //     })
+                        //     .then(() => {
+                        //         this.$router.push("/trade_log")
+                        //     })
+                        setTimeout( () => {
+
+                            this.$router.push("/tradeDetail?type=转账&&moneynum="+this.form.moneynum+"&&receivecount="+this.form.receivecount+"&&snumber="+response.data.snumber+"&&date="+response.data.date+"&&countType="+this.countType)
+                        },1000)
                         }
                         else{
                              this.$confirm(response.data.message, '提示', {
@@ -137,7 +140,7 @@
 				
                 },
                  loadcount(){
-                    this.$http.get('/api/count/queryCountByUserid').then(response => {
+                    this.$http.get('/count/queryCountByUserid').then(response => {
                         this.countArr=response.data;
                         var len=this.countArr.length;
                     })

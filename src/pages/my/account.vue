@@ -5,7 +5,7 @@
 			<span slot="left"  @click="$common.back()">返回</span>
 		</v-header>
 		<el-main>
-            <div v-show="loadshow" class="comomtips"><i class="el-icon-loading"></i></div>
+            <div v-show="loadshow" class="comomtips"><i class="el-icon-loading"></i>加载中..</div>
 			<div class=" pl0">
                  <div v-show="dataArr.length==0" class="mt10 gray pb10">暂无数据</div>
              <div class="list_group" v-for="data in dataArr">
@@ -57,7 +57,8 @@
         <el-form :model="form">
             <el-form-item label="货币类型" :label-width="formLabelWidth">
             <el-select v-model="form.countType" placeholder="请选择货币类型"  >
-                <el-option v-for="(item, idx) in countArr"   :label="item | countType" :value="item" :key="idx"></el-option>
+                <el-option v-for="(item, idx) in countArr"  :label="idx | countType" :value="idx" :key="idx"></el-option>
+                 
             </el-select>
             </el-form-item>
             <el-form-item label="设置支付密码" :label-width="formLabelWidth">
@@ -95,7 +96,7 @@ export default {
   },
   methods:{
       loadData(){
-            this.$http.get('/api/count/queryCountByUserid').then(response => {
+            this.$http.get('/count/queryCountByUserid').then(response => {
                 if(response.data.code=="fail"){
                      this.$confirm('操作失败！检查是否登录', '提示', {//是否登陆
                     confirmButtonText: '确定',
@@ -114,7 +115,7 @@ export default {
             });
       },
       loadcountType(){
-         this.$http.get('/api/count/queryMoneyType').then(response => {
+         this.$http.get('/count/queryMoneyType').then(response => {
                 this.countArr=response.data;
             })
             .catch(error=>{
@@ -125,7 +126,7 @@ export default {
       },
       onSubmit(countid) {
              var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-                    this.$http.post("/api/count/createCount",formData, {
+                    this.$http.post("/count/createCount",formData, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
@@ -168,7 +169,7 @@ export default {
                  }).then(() => {
                      let params  = new URLSearchParams();
                      params.append('id',countid);
-                    this.$http.post("/api/count/logoutCount",params, {
+                    this.$http.post("/count/logoutCount",params, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }

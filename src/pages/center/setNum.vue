@@ -26,8 +26,8 @@
 					<div slot="header" class="clearfix">
 						<span>选择货币类型</span>
 					</div>
-					<div  v-for="item in countArr" class="text item" @click="countype(item)">
-						{{item}}
+					<div  v-for="(item, idx) in countArr" :key="idx" class="text item" @click="countype(idx)">
+						{{idx | countType}}
 					</div>
 					<div class="mt15 w100 blue " @click="isShow=false">取消</div>
 				</el-card>
@@ -59,7 +59,7 @@
 		},
 		methods:{
 		 nextStep: function(){
-			   this.$router.push({path:'/QRcode?'+'ttype='+this.form.countType+'&&tnum='+this.form.num})
+			   this.$router.push({path:'/QRcode?'+'countType='+this.form.countType+'&&num='+this.form.num})
 			},
 			 countype(item){  //下拉框选中项事件
                this.form.countType=item;
@@ -67,7 +67,7 @@
                 
 			},
 			 loadcountType(){
-				this.$http.get('/api/count/queryMoneyType').then(response => {
+				this.$http.get('/count/queryMoneyType').then(response => {
 						this.countArr=response.data;
 					})
 					.catch(error=>{

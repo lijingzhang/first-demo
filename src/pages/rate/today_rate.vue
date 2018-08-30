@@ -10,7 +10,7 @@
         <div class=" today">
             <div class="title_head">
                 <el-row>
-                    <el-col :span="12" class="tl f22 yellow">今日汇率</el-col>
+                    <el-col :span="12" class="tl f18 yellow">今日汇率</el-col>
                     <el-col :span="12" class="tr"><router-link to="morelist">更多</router-link></el-col>
                 </el-row>  
             </div>
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     loadData() {
-          this.$http.get('/api/rate/queryAll').then(res => {
+          this.$http.get('/rate/queryAll').then(res => {
                     var result = res.data;
                     var lenth=result.length;
                     var dataArr=result[lenth-1].USDCNY
@@ -91,7 +91,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" scoped>
     /* 列表 */
 
    .list_item { padding: 10px;text-align: left; border-bottom: 1px solid #eeeeee;color: #333333;    padding: 10px 0;}

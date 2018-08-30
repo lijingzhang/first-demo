@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     loadData() {
-          this.$http.get('/api/rate/queryAll').then(res => {
+          this.$http.get('/rate/queryAll').then(res => {
             var result = res.data;
             var lenth=result.length;
             var dataArr=result[lenth-1].USDCNY;
@@ -132,7 +132,7 @@ export default {
          }
     },
       loadcountType(){
-         this.$http.get('/api/count/queryCountByUserid').then(response => {
+         this.$http.get('/count/queryCountByUserid').then(response => {
                 this.countArr=response.data;
                 var len=this.countArr.length;
                 if(len>0){ //有账户时
@@ -250,7 +250,7 @@ export default {
    .el-row { padding: 10px 0;text-align: left; border-bottom: 1px solid #eeeeee;color: #333333;
        
         & .el-col-24{line-height: 30px;
-            & i{background: url("/static/images/icon_right.png") no-repeat;display: inline-block;margin-left: 5px;;width: 15px;height: 15px; background-size: contain;}}
+            & i{background: url("../../assets/images/icon_right.png") no-repeat;display: inline-block;margin-left: 5px;;width: 15px;height: 15px; background-size: contain;}}
         & input{ height: 35px;border: 0}
         & input:disabled{ background: #fff} 
         

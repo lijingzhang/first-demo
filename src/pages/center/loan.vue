@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     loadData() {
-          this.$http.get('/api/borrow/queryAll').then(res => {
+          this.$http.get('/borrow/queryAll').then(res => {
                     var result = res.data;
                    this.dataArr=result;
                     this.datalength=result.length;//赋值

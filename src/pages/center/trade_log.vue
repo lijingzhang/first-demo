@@ -59,7 +59,7 @@ export default {
 },
   methods: {
     loadData() {
-          this.$http.get('/api/opera/queryByUserid').then(res => {
+          this.$http.get('/opera/queryByUserid').then(res => {
                     var result = res.data;
                    this.dataArr=result;
                     this.datalength=result.length;//赋值

@@ -1,11 +1,12 @@
 <template>
-	<div class="login_bg" >
+	<div >
 	<el-container>
-	
-		<el-main class="p15 pt55"  >
-			<div class=" pl0">
-					<div class="tc mb15"><img src="../assets/images/logo.png" width="120"></div>
-				<el-form ref="form" status-icon :model="form"  label-width="80px" id='box'>
+		<v-header title="资金密码修改">
+			<span slot="left"  @click="$common.back()">返回</span>
+		</v-header>
+		<el-main>
+			<div class="  border-t10">
+				<el-form ref="form"  :model="form"  label-width="80px">
 					<el-form-item label="国家/地区" prop="country">
 						<el-select v-model="value" placeholder="请选择">
 							<el-option
@@ -19,10 +20,10 @@
 					<el-form-item label="手机号" prop="phone">
 						<el-input v-model="form.phone" type="number"  placeholder="请输入手机号" ></el-input>
 					</el-form-item>
-                     <el-form-item label="验证码" prop="checkNum">
+                     <el-form-item label="验证码" prop="checknum">
                          <el-row >
                         	<el-col :span="14">
-	                            <el-input class="l" type="number" v-model="form.checkNum"  placeholder="请输入验证码"></el-input>
+	                            <el-input class="l" type="number" v-model="form.checknum"  placeholder="请输入验证码"></el-input>
                             </el-col>
                             <el-col :span="9" >
                                 <el-button  type="primary" class="code_btn" v-if="sendMsgDisabled">{{time+'秒后重发'}}</el-button>
@@ -30,40 +31,64 @@
                              </el-col>
                          </el-row>    
 					</el-form-item>
-					<el-form-item label="密  码" prop="password">
-						<el-input v-model="form.password" type="password"   placeholder="请输入密码"></el-input>
+					  <el-form-item label="账户选择" prop="cardid">
+                        <el-input v-model="cardid" @click.native="isShow=true" ref="cardid" placeholder="请选择账户" class="pr30"></el-input>
+                        <i class="gray_right"></i>
+                    </el-form-item>
+					<el-form-item label=" 新密码" prop="password">
+						<el-input v-model="form.password" type="password"   placeholder="请输入新密码"></el-input>
 					</el-form-item>
-                   
-					<el-row class="mt20">
-						<el-col :span="24">
-						<el-button class="w100 mb15 mt40" type="primary" disabled="disabled" ref="button" @click="onSubmit('form')">注册</el-button>
-						</el-col>
-						<el-col :span="24" class="tr white">
-                            	<span>已有账号？</span><router-link to="/login">登录</router-link>
-						</el-col>
-					</el-row>
-					<!-- <el-button @click="resetForm('form')">重置</el-button> -->
+					<el-form-item label="重复密码" prop="password">
+						<el-input v-model="newpassword" type="password"   placeholder="请再次输入新密码"></el-input>
+					</el-form-item>
+					<div class="pl15 pr15">
+						<el-button class="w100 mb15 mt40" type="primary" disabled="disabled" ref="button" @click="onSubmit('form')">重置密码</el-button>
+					</div>
+					
 				</el-form>
 			</div>	
+            
 		</el-main>
+		 <div class="popContainer transfer" v-if="isShow" @click="isShow=false">
+            <el-card class="box-card ">
+                <div slot="header" class="clearfix">
+                    <span>选择账户</span>
+                </div>
+                <div  v-for="item in countArr" class="text item" @click="countype(item.id,item.cardId,item.countType)">
+                    <el-row>
+                        <el-col :span="12" class="tl">
+                            {{item.cardId}}({{item.countType}})
+                        </el-col>
+                        
+                    </el-row>
+                
+                </div>
+            
+            </el-card>
+        </div>
 	</el-container>
+
 </div>
 </template>
-
 <script>
+
     export default {
         data() {
 			return {
-				form: {//form名称
+			form: {//form名称
 					phone: '',
 					telphone: '',
 					password: '',
-					checkNum: '',	
+					checknum: '',	
+					id:'',
 				},
-				
+				countArr:[],
+				cardid:'',
+				isShow:false,
+				newpassword:'',
 				time: 60, // 发送验证码倒计时
 				sendMsgDisabled: false,
-				options: [{
+	options: [{
 					value: '',
 					label: '中国大陆(默认)'
 					}, {
@@ -101,52 +126,63 @@
 					label: '文莱'
 				}],
 				value: ''
-
-
 			}
 		},
-
-		methods: {
+		created(){
+			 this.loadcount();  //加载自己的账户
+		},
+		methods:{
 			onSubmit(formName) {
-				
-					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-					this.form.telphone=this.value+this.form.phone;
-					console.log(this.form.telphone);
-					 this.$http.post("/user/register",formData, {
-                      headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                      }
-                  })
-                  .then(response=>{
-						var Data=response.data;
-						if(Data.code=="fail"){
-							this.form.telphone=''; //错误时置空
-							this.$confirm(Data.message, '提示', {
-								confirmButtonText: '确定',
-								center: true,
-								showClose:false,
-								showCancelButton:false
-							})
-						}
-						else{
-							setTimeout( () => {
-								this.$confirm("恭喜您，注册成功!", '提示', {
-								confirmButtonText: '确定',
-								center: true,
-								showClose:false,
-								showCancelButton:false,
-								callback: action => {
-								this.$router.push("/login")
-								}
-								});
-								
-							 }, 1000);
-						}
+				this.form.telphone=this.value+this.form.phone;
+				if(this.newpassword!=this.form.password){
+					this.$confirm('两次密码不一致，请重新输入', '提示', {
+						confirmButtonText: '确定',
+						center: true,
+						showClose:false,
+						showCancelButton:false
 					})
+				}
+				else{
+					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
+					this.$http.post("/user/resetpwd",formData, {
+					headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+					}
+					})
+					.then(response=>{
+							var Data=response.data;
+							if(Data.code=="fail"){
+								this.form.telphone=''; //错误时置空
+								this.$confirm(Data.message, '提示', {
+									confirmButtonText: '确定',
+									center: true,
+									showClose:false,
+									showCancelButton:false
+								})
+							}
+							else{
+								setTimeout( () => {
+									this.$confirm("恭喜您，密码修改成功!", '提示', {
+									confirmButtonText: '确定',
+									center: true,
+									showClose:false,
+									showCancelButton:false,
+									callback: action => {
+									this.$router.push("/centerindex")
+									}
+									});
+									
+								}, 1000);
+							}
+						})
 					.catch(error=>{
 					   //超时之后在这里捕抓错误信息.
                      console.log(error);
 					});
+					
+					
+				}
+				
 				},
 				sendcode(){
 					let self = this;
@@ -154,7 +190,7 @@
 					var params  = new URLSearchParams();
 					this.form.telphone=this.value+this.form.phone;
 					params.append('telphone', this.form.telphone);
-						this.$http.post("/api/user/checkPhone",params, {
+						this.$http.post("/user/checkPhone",params, {
 						headers: {
 								'Content-Type': 'application/x-www-form-urlencoded'
 						}
@@ -185,10 +221,24 @@
 					alert("网路错误，不能访问");
 					});
 				},
-			
-				
-				
-				
+				 loadcount(){
+                    this.$http.get('/count/queryCountByUserid').then(response => {
+                        this.countArr=response.data;
+                        var len=this.countArr.length;
+                    })
+                    .catch(error=>{
+                        //超时之后在这里捕抓错误信息.
+                            console.log(error);
+                    });
+                        
+           		 },
+				countype(id,cardId,countType){  //下拉框选中项事件
+					this.form.id=id;
+					this.cardid=cardId+'('+countType+')';
+					this.countType=countType;
+					this.isShow=false;
+					
+				},
 		},
 		  watch:{  //实时监听
 				form:{
@@ -206,13 +256,12 @@
 						else{
 								this.$nextTick(()=>{
 								this.$refs.codebtn.$el.setAttribute('disabled','disabled');
-								//去除属性ref=button上的指定class：is-disabled
 								this.$refs.codebtn.$el.setAttribute("class","el-button code_btn el-button--primary is-disabled")
 							})
 						}	
 
 						//监听提交按钮状态
-						if(this.form.phone!=''&&this.form.password!=''&&this.form.checkNum){
+						if(this.form.phone!=''&&this.form.password!=''&&this.form.checknum){
 							this.$nextTick(()=>{
 								this.$refs.button.$el.removeAttribute('disabled');
 								//去除属性ref=button上的指定class：is-disabled
@@ -224,7 +273,6 @@
 						else{
 								this.$nextTick(()=>{
 								this.$refs.button.$el.setAttribute('disabled','disabled');
-								//去除属性ref=button上的指定class：is-disabled
 								this.$refs.button.$el.setAttribute("class","el-button w100 mt40 mb15 el-button--primary  is-disabled")
 							})
 						}
@@ -232,23 +280,10 @@
 					deep:true
 				}
 			},
-	
     }
 </script>
+
 <style lang="scss" scoped>
+.el-form .el-form-item:first-child{ border: none; border-bottom: 1px solid #dcdfe6}
 .code_btn.el-button{    height: 35px;line-height: 10px; color: #fff;padding: 0;width: 100%;}
-.el-main{ background: none; }
-.el-button--primary{ background: #e2514a;border: 1px solid #e2514a;border-radius: 6px}
-.el-button--primary.is-disabled, .el-button--primary.is-disabled:active, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:hover {
-    color: #fff;
-    background-color: #f89894;
-    border-color: #f89894;
-}
-.white a{color: #fff}
-.gray_right{background: url("../assets/images/gray_right.png") no-repeat; background-size: contain; width: 18px; height:18px; display: inline-block;
-right: 0; top: 15px; position:absolute }
-.el-form{ margin-top: 50px}
 </style>
-</style>
-
-

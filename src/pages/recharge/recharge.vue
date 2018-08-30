@@ -5,23 +5,37 @@
 			<span slot="left"  @click="$common.back()">返回</span>
 		</v-header>
 		<el-main>
-			<div class=" pl0">
-				<el-form ref="form" status-icon :model="form" :rules="rules" label-width="65px">
-					<el-form-item label="用户名" prop="cardNum">
-						<el-input v-model="form.tradeMoney"  placeholder="请输入充值金额" ></el-input>
+			<div class=" pl0  border-t10">
+				<el-form ref="form" :model="form" label-width="80px">
+					<el-form-item label="充值账户" prop="accountName">
+						<el-input ref="account" v-model="accountName"  @click.native="isShow=true"  placeholder="请选择充值账户" ></el-input>
+						<i class="gray_right"></i>
 					</el-form-item>
-					<el-form-item label="密  码" prop="password">
-						<el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+					<el-form-item label="充值方式" prop="payType">
+						<el-input v-model="form.payType"  placeholder="请输入充值方式"></el-input>
+							<i class="gray_right"></i>
 					</el-form-item>
-					<el-row >
-						<el-col :span="24">
-						<el-button class="w100 mb15" type="primary" @click="onSubmit('form')">登录</el-button>
-						</el-col>
-					</el-row>
+					<el-form-item label="充值金额" prop="tradeMoney">
+						<el-input v-model="form.tradeMoney"  placeholder="请输入充值金额"></el-input>
+					</el-form-item>
+					<div class="pl15 pr15 pb15">
+						<el-button class="w100 mb15 mt15" type="primary" @click="onSubmit('form')">登录</el-button>
+					</div>
 				</el-form>
 			</div>	
             
 		</el-main>
+		 <div class="popContainer" v-if="isShow" @click="isShow=false">
+			<el-card class="box-card ">
+				<div slot="header" class="clearfix">
+					<span>选择充值账户</span>
+				</div>
+				<div  v-for="data in countArr" class="text item" @click="countype(data.id,data.cardId,data.countType)">
+						{{data.cardId}}({{data.countType}}) 
+					</div>
+				<div class="mt15 w100 blue " @click="isShow=false">取消</div>
+			</el-card>
+		</div>
 	</el-container>
 
 </div>
@@ -33,51 +47,71 @@
 			return {
 				form: {//form名称
 					tradeMoney: '',
+					payType:'',
+					countId:'',
 					
 				},
-				 rules: {
-					  tradeMoney: [
-					     { required: true, message: '请输入用户名',  trigger: ['blur', 'change'] },
-						{ min: 3,message: '长度至少3个字符', trigger: 'blur' }
-					],
-					password: [
-					 { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
-						{ min: 6,  message: '长度在至少6个字符', trigger: 'blur' }
-					],
-                 },
-                  centerDialogVisible: false
-
+				accountName:'',
+				countArr:[],
+				isShow:false,
+				
 			}
+		},
+		created() {
+			this.loadcount();//加载账户
+			this.$nextTick(()=>{
+				this.$refs.account.$el.children[0].setAttribute('readOnly','readOnly');
+			
+			})
 		},
 		methods: {
 			onSubmit(formName) {
-				  this.$refs[formName].validate((valid) => {
-					if (valid) {
-					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-					 this.$http.post("/api/pay/recharge",formData, {
+					var formData= JSON.stringify(this.form); // 获取表单数据并转为json数组
+                    var params  = new URLSearchParams();
+                    params.append('datas', formData);
+					 this.$http.post("/pay/recharge",params, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }
                   })
                   .then(response=>{
-						// this.goods=response.data;
+						if(response.data.code=="success"){
+							this.$router.replace({ path: '/home' })//跳转到home页面
+						}
 						console.log(response.data);
-						this.$router.replace({ path: '/home' })//跳转到home页面
+						
 					})
 					.catch(error=>{
 					alert("网路错误，不能访问");
 					});
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-					});
+				
+					
 				},
-				showAlert:function(){
-					swal('Hello Vue world!!!');
-				},
-			  skip:function(a){
-				this.$router.push(a)}//点击页面跳转
+				 loadcount(){
+					this.$http.get('/count/queryCountByUserid').then(response => {
+						if(response.data.code=="fail"){
+							this.$confirm('操作失败！检查是否登录', '提示', {//是否登陆
+							confirmButtonText: '确定',
+							showClose:false,
+						showCancelButton:false,
+							center:true
+							})
+						}
+						else{
+							this.countArr=response.data;
+						}
+					})
+					.catch(error=>{
+						//超时之后在这里捕抓错误信息.
+							console.log(error);
+            		});
+				  },
+				  countype(id,cardId,type){
+					  this.form.countId=id;
+					  this.accountName=cardId+'('+type+')';
+					
+				  }
+			
 			}  
 	
     }

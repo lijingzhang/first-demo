@@ -21,14 +21,21 @@ import trade_log from '@/pages/center/trade_log'
 import QRcode from '@/pages/center/QRcode' 
 import setNum from '@/pages/center/setNum' 
 import Codepayment from '@/pages/center/Codepayment' 
-import scanCode from '@/pages/center/scanCode' 
-
+import tradeDetail from '@/pages/center/trade_detail' 
 
 //转账
 import transfer from '@/pages/recharge/transfer' 
 import transfer_next from '@/pages/recharge/transfer_next' 
 
+//信箱
+import chatDialog from '@/pages/chat/chatDialog'
+import chatList from '@/pages/chat/chatList'
 
+
+//设置
+import setpsw from '@/pages/reset/set_psw'
+import paypsw from '@/pages/reset/pay_psw'
+import changetel from '@/pages/reset/change_tel'
 
 
 
@@ -65,93 +72,93 @@ export default[
     {
       path: '/recharge',
       component: recharge,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/list1',
       component: list1,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/authentication',
       component: authentication,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/centerindex',
       component: centerindex,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/account',
       component: account,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/setting',
       component: setting,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/morelist',
       component: morelist,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/exchange',
       component: exchange,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/todayrate',
       component: todayrate,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/caculate',
       component: caculate,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/loan',
       component: loan,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/trade_log',
       component: trade_log,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     },
     {
       path: '/transfer',
       component: transfer,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     }, 
     {
       path: '/transfer_next',
@@ -163,34 +170,68 @@ export default[
     {
       path: '/QRcode',
       component: QRcode,
-      // meta: { 
-      //   requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-      //  }, 
+      meta: { 
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
+       }, 
     
     },
     {
       path: '/setNum',
       component: setNum,
-      // meta: { 
-      //   requireAuth: true 
-      //  }, 
+      meta: { 
+        requireAuth: true 
+       }, 
     },
       {
         path: '/Codepayment',
         component: Codepayment,
-        // meta: { 
-        //   requireAuth: true 
-        //  }, 
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+     
+      {
+        path: '/chatDialog',
+        component: chatDialog,
+        meta: { 
+          requireAuth: true 
+         }, 
       },
       {
-        path: '/scanCode',
-        component: scanCode,
-        // meta: { 
-        //   requireAuth: true 
-        //  }, 
+        path: '/chatList',
+        component: chatList,
+        meta: { 
+          requireAuth: true 
+         }, 
       },
-
-
+      {
+        path: '/tradeDetail',
+        component: tradeDetail,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+      {
+        path: '/changetel',
+        component: changetel,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+      {
+        path: '/setpsw',
+        component: setpsw,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+      {
+        path: '/paypsw',
+        component: paypsw,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
 
 
   ]

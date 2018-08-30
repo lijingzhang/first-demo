@@ -2,6 +2,7 @@
 	<div class="login_bg">
 	<el-container>
 		<el-main class="p15 pt55 ">
+			<div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i>登录中...</div>
 			<div class=" pl0">
 				<div class="tc mb15"><img src="../assets/images/logo.png" width="120"></div>
 				<el-form ref="form"  :model="form"  label-width="80px" >
@@ -29,7 +30,7 @@
 					</el-row>
 					<el-row class="white">
 						<el-col :span="12" class="tl">
-							<router-link to="/" >忘记密码</router-link>
+							<router-link to="/setpsw" >忘记密码</router-link>
 						</el-col>
 						<el-col :span="12" class="tr">
 							<router-link to="/register">注册</router-link>
@@ -91,26 +92,31 @@ import * as types from '../store/types.js'
 					value: '673',
 					label: '文莱'
 				}],
-				value: ''
+				value: '',
+				loadShow:false,
 
 			}
 		},
 		//页面加载调用获取cookie值
 		mounted(){
 		this.getCookie();
-	     this.$store.commit(types.TITLE, 'Login');
+		 this.$store.commit(types.TITLE, 'Login');
+		 	// console.log("/api/user/login")
         },
 		methods: {
 			onSubmit(formName) {
+					this.loadShow=true;
 					this.form.telphone=this.value+this.form.phone;
 					var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-					 this.$http.post("/api/user/login",formData, {
+					//  this.$http.post(process.env.API_HOST +"/user/login",formData, {
+					 this.$http.post("/user/login",formData, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                       }
 				  }).then(response=>{
 						var Data=response.data;
 						if(Data.code=="fail"){
+						this.loadShow=false;
 						this.form.telphone=''; //错误时置空
 						 this.$confirm(Data.message, '提示', {
 							confirmButtonText: '确定',
@@ -132,7 +138,7 @@ import * as types from '../store/types.js'
 							this.setCookie(name,30);//设置cookie保存一个月
 							setTimeout( () => {
 								 this.$router.push("/index")
-							
+								this.loadShow=false;
 							 }, 1000);
 						
 						}
@@ -186,6 +192,13 @@ import * as types from '../store/types.js'
 								var classVal=this.$refs.button.$el.getAttribute("class");
 								classVal=classVal.replace('is-disabled','')
 								this.$refs.button.$el.setAttribute("class",classVal)
+							})
+						}
+						else{
+								this.$nextTick(()=>{
+								this.$refs.button.$el.setAttribute('disabled','disabled');
+								//去除属性ref=button上的指定class：is-disabled
+								this.$refs.button.$el.setAttribute("class","el-button w100 mt40 mb15 el-button--primary  is-disabled")
 							})
 						}
 					},

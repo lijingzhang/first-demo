@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" ref="wrapper">
       <el-container  >
-  
+    <div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i>替换中...</div>
          <el-main style="padding-top:0">
              <div class="headcenter">
                  <div class="top tc">
@@ -40,8 +40,10 @@
              </div>
             <el-row class="pt15 pb15 ">
                 <el-col :span="6">
-                    <div ><img src="../../assets/images/center_xx.png" class="img1x" alt=""></div>
-                    <div>信箱</div>
+                    <router-link to="/chatList">
+                        <div ><img src="../../assets/images/center_xx.png" class="img1x" alt=""></div>
+                        <div>信箱</div>
+                    </router-link>    
                 </el-col>
                 <el-col :span="6" >
                     <router-link to="/loan">
@@ -56,8 +58,10 @@
                     </router-link>
                 </el-col>
                 <el-col :span="6" >
-                    <div ><img src="../../assets/images/center_zh.png" class="img1x" alt=""></div>
-                    <div>账户总览</div>
+                      <router-link to="/account">
+                        <div ><img src="../../assets/images/center_zh.png" class="img1x" alt=""></div>
+                        <div>账户总览</div>
+                      </router-link>
                 </el-col>
             </el-row>  
             <div class="list_group">
@@ -115,7 +119,7 @@
                     </router-link>
                 </div>
             </div>
-              <div class="popContainer" v-if="isshow" @click="isShow=false" >
+              <div class="popContainer" v-if="isshow"  >
             <el-card class="box-card " style="overflow-y:scroll;">
                 <div slot="header" class="clearfix">
                     <span>预览图片</span>
@@ -148,6 +152,7 @@ export default {
         // 初始图片
         isshow:false,
         isSize:0,
+        loadShow:false,
     }
   },
   created(){
@@ -173,36 +178,37 @@ export default {
       reader.readAsDataURL(file)//将文件已url的形式读入页面
     },
     onSubmit:function(){
-          setTimeout( () => {
-               this.isshow= false;
-        
-            }, 1000);
+        this.isshow= false; 
         if(this.isSize<57){
-            var imgurl=this.userInfo.head
-            this.$http.get("/api/user/uploadimg",{params:{img:imgurl }}, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
-            .then(response=>{
-                if(response.data.code=="success"){
-                    this.userInfo.avatar= this.userInfo.head;
-                }
-                else{
-                    this.$confirm(response.data.message, '提示', {
-                    confirmButtonText: '确定',
-                    showClose:false,
-                        showCancelButton:false,
-                    center:true
-                    })
-                }
+            this.loadShow=true;
+             setTimeout( () => {
+                var imgurl=this.userInfo.head
+                this.$http.get("/user/uploadimg",{params:{img:imgurl }}, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response=>{
+                    if(response.data.code=="success"){
+                        this.userInfo.avatar= imgurl;
+                        this.loadShow=false;
+                    }
+                    else{
+                        this.$confirm(response.data.message, '提示', {
+                        confirmButtonText: '确定',
+                        showClose:false,
+                            showCancelButton:false,
+                        center:true
+                        })
+                    }
+                    
                 
-            
-            })
-            .catch(error=>{
-                    //超时之后在这里捕抓错误信息.
-                    console.log(error);
-            });
+                })
+                .catch(error=>{
+                        //超时之后在这里捕抓错误信息.
+                        console.log(error);
+                });
+             }, 1500);
         }
         else{
              this.$confirm("图片大小不能大于56KB", '提示', {
@@ -212,10 +218,12 @@ export default {
                 center:true
                 })
         }
+           
+      
          
     },
     loadUserInfo(){
-         this.$http.get("/api/user/getuser", {
+         this.$http.get("/user/getuser", {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }

@@ -1,9 +1,8 @@
 <template>
 	<div >
 	<el-container>
-		<v-header title="转账">
+		<v-header title="更换手机号">
 			<span slot="left"  @click="$common.back()">返回</span>
-            <router-link to="/"转账记录></router-link>
 		</v-header>
 		<el-main>
 			<div class=" pl0 border-t10">
@@ -12,8 +11,8 @@
 						<el-input type="number" v-model="form.receivecount"  placeholder="请输入对方账户手机号(限本平台)" ></el-input>
 					</el-form-item>
 					<div class="pl15 pr15 pb15">
-						<p class="gray tl f12 ">（ 钱将实时转入对方账户，无法退还 ）</p>
-						 <el-button class="w100 mt20 "   type="primary" disabled="disabled" ref="button"  @click="nextStep">下一步</el-button>
+						<p class="gray tl f12 mb25">（ 钱将实时转入对方账户，无法退还 ）</p>
+						 <el-button class="w100 mt30 "   type="primary" disabled="disabled" ref="button"  @click="nextStep">下一步</el-button>
 					
 					</div>
 				

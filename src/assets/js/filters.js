@@ -7,6 +7,12 @@ let countType = value => {
     else  if(value=="USD"){
         return "USD(美元)"
     }
+    else if(value=="人民币"){
+        return "CNY(人民币)"
+    }
+    else  if(value=="美金"){
+        return "USD(美元)"
+    }
   }
 //货币类型过滤
 let fhType = value => {
@@ -14,6 +20,12 @@ let fhType = value => {
         return "￥"
     }
     else  if(value=="USD"){
+        return "$"
+    }
+    else if(value=="人民币"){
+        return "￥"
+    }
+    else  if(value=="美金"){
         return "$"
     }
   }

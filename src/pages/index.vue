@@ -15,18 +15,21 @@
             </el-col>
           </el-row>
         </div>
-        <div class="scan" v-if="show">
-        <div id="bcid">
-          <div style="height:40%"></div>
-          <p class="tip">...载入中...</p>
-        </div>
-        <!-- <div class="ffooter">
-            <button @click="startRecognize">1.创建控件</button>
-            <button @click="startScan">2.开始扫描</button>
-            <button @click="cancelScan">3.结束扫描</button>
-            <button @click="closeScan">4.关闭控件</button>
-        </div> -->
-    </div>
+      
+        <div class="scan popContainer" v-if="show">
+            <v-header title="扫码付款">
+              <span slot="left"  @click="show=false;closeScan()">返回</span>
+            </v-header>
+          <div id="bcid">
+            <div  class="comomtips"><i class="el-icon-loading"></i>载入中...</div>
+          </div>
+          <!-- <div class="ffooter">
+              <button @click="startRecognize">1.创建控件</button>
+              <button @click="startScan">2.开始扫描</button>
+              <button @click="cancelScan">3.结束扫描</button>
+              <button @click="closeScan">4.关闭控件</button>
+          </div> -->
+      </div>
     
           <el-row>
             <el-col :span="8" >
@@ -70,7 +73,7 @@
           </el-row>
            <el-row>
             <el-col :span="8" >
-              <router-link  to="/">
+              <router-link  to="/recharge">
                 <div><img class="img2x pb10" src="../assets/images/icon_cz.png" alt=""></div>
                 <div>充值</div>
               </router-link>
@@ -82,7 +85,7 @@
               </router-link>
             </el-col>
              <el-col :span="8" >
-               <router-link  to="/">
+               <router-link  to="/trade_log">
                 <div><img class="img2x pb10" src="../assets/images/icon_zd.png" alt=""></div>
                 <div>账单查询</div>
               </router-link>
@@ -102,6 +105,7 @@ export default {
     return {
       show:false,
       codeUrl: '',
+      loadshow:false
     }
   },
   created(){
@@ -137,23 +141,25 @@ export default {
               result = result.replace(/\n/g, '');
               that.codeUrl = result;
               that.closeScan();
+              this.loadshow=true
               setTimeout( () => {
                     that.$router.push(that.codeUrl);
-
+                    that.show=false;
                 }, 1000);
             }
-          }, 1000);
+          }, 500);
            setTimeout( () => {   //延时缓冲加载
                that.startScan();
 
-            }, 1000);
+            }, 500);
          
       },
       //开始扫描
       startScan() {
-        console.log("123")
+       
         if (!window.plus) return;
         scan.start();
+         this.loadshow=false
       },
       //关闭扫描
       cancelScan() {
@@ -173,7 +179,7 @@ export default {
 <style lang="scss" scoped="" type="text/css">
 .sub_header{ background: #0d0d0d;color: #fff;padding: 15px 0}
 .el-row .el-col-8{border-right: 1px solid #f5f5f5; border-bottom: 1px solid #f5f5f5;min-height: 115px;
- padding: 20px 0;
+ padding:30px 0;
 
  }
 
@@ -185,7 +191,7 @@ export default {
 .img3x{width: imgpx(300px)}
 .img2x{width: imgpx(200px)}
  .scan {
-    height: 100%;
+   
     #bcid {
       width: 100%;
       position: absolute;
@@ -195,7 +201,7 @@ export default {
       bottom:0;
       text-align: center;
       color: #fff;
-      background: #ccc;
+      background: #ccc;min-height: 100%;
     }
    .ffooter {
       position: absolute;
@@ -206,4 +212,5 @@ export default {
       z-index: 2;
     }
   }
+  .popContainer{ bottom: 55px}
 </style>
