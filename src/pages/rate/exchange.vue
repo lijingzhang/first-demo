@@ -201,7 +201,7 @@ export default {
             var formData= JSON.stringify(this.form);
             var params  = new URLSearchParams();
             params.append('datas', formData);
-            this.$http.post("/api/count/exchange",params, {
+            this.$http.get("/count/exchange",{params:params}, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }

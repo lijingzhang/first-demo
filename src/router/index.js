@@ -34,15 +34,15 @@ import chatList from '@/pages/chat/chatList'
 
 //设置
 import setpsw from '@/pages/reset/set_psw'
-import paypsw from '@/pages/reset/pay_psw'
+import paypsw from '@/pages/reset/pay_psw'        //登录前找回密码
 import changetel from '@/pages/reset/change_tel'
-
+import changepsw from '@/pages/reset/change_psw'  //登陆后修改密码
 
 
 export default[
     {
       path: '/',
-      redirect: '/login' ,  // 当访问根目录的时候默认跳转到主页
+      redirect: '/index' ,  // 当访问根目录的时候默认跳转到主页
       
     },
 
@@ -232,7 +232,13 @@ export default[
           requireAuth: true 
          }, 
       },
-
+      {
+        path: '/changepsw',
+        component: changepsw,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
 
   ]
 

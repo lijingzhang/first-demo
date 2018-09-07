@@ -10,8 +10,12 @@
 					<el-form-item label="收款人" prop="username">
 						<el-input  v-model="form.username"  ref="input"></el-input>
 					</el-form-item>
-					<el-form-item label="付款类型" prop="countType">
+					<!-- <el-form-item label="付款类型" prop="countType">
 						<el-input  v-model="form.countType"   ref="input1"></el-input>
+					</el-form-item> -->
+					<el-form-item label="收款类型" prop="countType">
+						<el-input  v-model="form.countType" ref="input1" @click.native="Show=true"  placeholder="请选择款项类型" ></el-input>
+						<i class="gray_right"></i>
 					</el-form-item>
 					<el-form-item label="付款金额" prop="num">
 						<el-input type="number" v-model="form.num" ref="input2" ></el-input>
@@ -31,6 +35,18 @@
 							<el-button class="w100 mt30 "   type="primary"  @click="onSubmit('form')" disabled='disabled' ref="button">付款</el-button>
 						</el-card>
 					</div>
+
+					  <div class="popContainer" v-if="show" @click="show=false">
+				<el-card class="box-card ">
+					<div slot="header" class="clearfix">
+						<span>选择货币类型</span>
+					</div>
+					<div  v-for="(item, idx) in countArr" :key="idx" class="text item" @click="countype(idx)">
+						{{idx | countType}}
+					</div>
+					<div class="mt15 w100 blue " @click="isShow=false">取消</div>
+				</el-card>
+			</div>
 				</el-form>
 			</div>	
            
@@ -47,20 +63,30 @@
 				form:{
 					username:this.$route.query.username,
 					num:this.$route.query.num,
-					countType:this.$route.query.type,
+					type:this.$route.query.type,
 					telphone:this.$route.query.phone,
 					payPwd:'',
 				},
 				isShow:false,
-				
+				show:false,
+				countArr:[]
 			}
 		},
 		 created() {
-			this.$nextTick(()=>{
-				this.$refs.input.$el.children[0].setAttribute('readOnly','readOnly');
-				this.$refs.input1.$el.children[0].setAttribute('readOnly','readOnly');
-				this.$refs.input2.$el.children[0].setAttribute('readOnly','readOnly');
-			})
+			 if(this.$route.query.num!=0){
+				this.$nextTick(()=>{
+					this.$refs.input.$el.children[0].setAttribute('readOnly','readOnly');
+					this.$refs.input1.$el.children[0].setAttribute('readOnly','readOnly');
+					this.$refs.input2.$el.children[0].setAttribute('readOnly','readOnly');
+				})
+			 }
+			 else{
+				this.$nextTick(()=>{
+					this.$refs.input.$el.children[0].setAttribute('readOnly','readOnly');
+					
+				})
+			 }
+			
 		},
 		methods:{
 			onSubmit(formName) {
@@ -99,6 +125,21 @@
 				
 				
 				},
+				countype(item){  //下拉框选中项事件
+					this.form.type=item;
+					this.show=false;
+					
+				},
+			 loadcountType(){
+				this.$http.get('/count/queryMoneyType').then(response => {
+						this.countArr=response.data;
+					})
+					.catch(error=>{
+						//超时之后在这里捕抓错误信息.
+							console.log(error);
+					});
+						
+			},
 				 //点击弹出框以外的区域隐藏弹出框
 				hidePanel: function(event){
 					var sp = document.getElementById("myPanel");

@@ -54,6 +54,9 @@
         </div>
 	</el-container>
     <el-dialog  :visible.sync="dialogFormVisible">
+        <v-header title="账户类型">
+			<span slot="left"  @click="dialogFormVisible = false">返回</span>
+		</v-header>
         <el-form :model="form">
             <el-form-item label="货币类型" :label-width="formLabelWidth">
             <el-select v-model="form.countType" placeholder="请选择货币类型"  >

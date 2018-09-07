@@ -14,19 +14,14 @@
             </div>
               <div class="mt15">用南方汇兑APP扫二维码向我付款</div>
               <div class="tc f20 red mt10 mb15" v-if="this.$route.query.num!=0"><b>{{this.$route.query.countType | fhType}}{{this.$route.query.num}}</b></div>
-              <div class="relative mt20">
-	            	<vue-qr id="qrcode"   :logoSrc="config.imagePath" :callback="test" :logoMargin="3" :text="config.value" :size="200" :margin="0"></vue-qr>
+              <div class="relative">
+                  <div id='code'></div>
+                <canvas id="canvas" ></canvas>
+                <img class="small_head" :src="userinfo.avatar" alt="">
               </div>
-           <el-row class="mt10">
-              <el-col :span="11">
-                <div class="tc mt10"><router-link class="deep_blue" to="/setNum">设置金额</router-link></div>
-              </el-col>
-               <el-col :span="2" class="tc gray"><div class="line"></div></el-col>
-               <el-col :span="11">
-                  <div class="tc mt10 deep_blue" @click="downloadImg()">保存图片</div>
-              </el-col>
-           </el-row>
               
+              <div class="tc mt10"><router-link class="deep_blue" to="/setNum">设置金额</router-link></div>
+           <el-button round size="small" @click="savePic">保存图片</el-button>
         </div>
       </div>
     </el-main> 
@@ -35,7 +30,7 @@
 </template>
 
 <script>
-
+import QRCode from 'qrcode'
 export default {
   data () {
     return {
@@ -46,41 +41,21 @@ export default {
             num:'0',
             type:'CNY'
         },
-       	config: {
-					value: '',
-					imagePath: '',
-					// filter: 'color'
-				},
         codes:'',
     }
   },
-
+  components: {
+      QRCode: QRCode
+    },
   created() {
     this.loadUserInfo();
-     this.config.value='/Codepayment?'+'phone='+this.userinfo.phone+'&&num='+this.userinfo.num+'&&type='+this.userinfo.type+'&&username='+this.userinfo.username
+  
   },
  mounted () {
     this.defaulcode();
-    // this.useqrcode();
-    
+    this.useqrcode();
   },
   methods: {
-       test(dataUrl,id){
-            console.log(dataUrl, id)
-             this.config.value='/Codepayment?'+'phone='+this.userinfo.phone+'&&num='+this.userinfo.num+'&&type='+this.userinfo.type+'&&username='+this.userinfo.username
-        },
-        downloadImg(){
-                var oQrcode = document.querySelector('#qrcode img')
-                var url = oQrcode.src
-                var a = document.createElement('a')  
-                var event = new MouseEvent('click')  
-                // 下载图名字
-                a.download = '二维码'
-                //url 
-                a.href = url 
-                //合成函数，执行下载 
-                a.dispatchEvent(event)
-               },
       loadUserInfo(){
          this.$http.get("/user/getuser", {
             headers: {
@@ -114,7 +89,7 @@ export default {
                   this.userinfo.avatar=response.data.img;
                   this.userinfo.username=response.data.username;
                   this.userinfo.phone=response.data.phone;
-                  this.config.imagePath=response.data.img //二维码中间的logo
+                
               }
             } 
         
@@ -124,19 +99,7 @@ export default {
                 console.log(error);
         });
     },
-     downcode(){
-       var oQrcode = document.querySelector('#qrcode img')
-                var url = oQrcode.src
-                var a = document.createElement('a')  
-                var event = new MouseEvent('click')  
-                // 下载图名字
-                a.download = '张三的二维码'
-                //url 
-                a.href = url 
-                //合成函数，执行下载 
-                a.dispatchEvent(event)
-
-     },
+     
       defaulcode(){
           this.userinfo.type=this.$route.query.countType
           this.userinfo.num=this.$route.query.num
@@ -155,14 +118,14 @@ export default {
                   console.log(error);
           });
       },
-      // useqrcode(){
-      //   var canvas = document.getElementById('canvas')
-      //   QRCode.toCanvas(canvas, '/Codepayment?'+'phone='+this.userinfo.phone+'&&num='+this.userinfo.num+'&&type='+this.userinfo.type+'&&username='+this.userinfo.username, function (error) {
-      //     if (error) console.error(error)
-      //     console.log('success!');
+      useqrcode(){
+        var canvas = document.getElementById('canvas')
+        QRCode.toCanvas(canvas, '/Codepayment?'+'phone='+this.userinfo.phone+'&&num='+this.userinfo.num+'&&type='+this.userinfo.type+'&&username='+this.userinfo.username, function (error) {
+          if (error) console.error(error)
+          console.log('success!');
          
-      //   })
-      // },
+        })
+      },
 
 
 
@@ -180,6 +143,5 @@ export default {
   .title_head{ border-bottom:1px solid #f5bf66}
   .yellow{color: #f5bf66}
   .small_head{ position: absolute;top:41%;left:45%;width: 30px; z-index: 999;}
-  .line{ width: 1px; height: 18px;background: #a1a1a1;margin: 10px auto 0;}
 </style>
 

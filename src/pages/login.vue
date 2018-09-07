@@ -6,7 +6,7 @@
 			<div class=" pl0">
 				<div class="tc mb15"><img src="../assets/images/logo.png" width="120"></div>
 				<el-form ref="form"  :model="form"  label-width="80px" >
-					<el-form-item label="国家/地区" prop="country">
+					<!-- <el-form-item label="国家/地区" prop="country" >
 						<el-select v-model="value" placeholder="请选择">
 							<el-option
 							v-for="item in options"
@@ -15,6 +15,10 @@
 							:value="item.value">
 							</el-option>
 						</el-select>
+					</el-form-item> -->
+					<el-form-item label="国家/地区" prop="country" @click.native="isShow=true">
+						<el-input v-model="label"   ></el-input>
+						<i class="el-icon-arrow-down"></i>
 					</el-form-item>
 					<el-form-item label="手机号" prop="phone">
 						<el-input v-model="form.phone" type="number"  placeholder="请输入手机号" ></el-input>
@@ -41,6 +45,17 @@
 			</div>	
 		</el-main>
 	</el-container>
+	 <div class="popContainer" v-if="isShow" @click="isShow=false">
+		<el-card class="box-card ">
+			<div slot="header" class="clearfix">
+				<span>选择手机号所属国家</span>
+			</div>
+			<div  v-for="(item, idx) in options" :key="idx" class="text item" @click="countype(item.value,item.label)">
+				{{item.label}}
+			</div>
+			<div class="mt15 w100 blue " @click="isShow=false">取消</div>
+		</el-card>
+	</div>
 </div>
 </template>
 <script>
@@ -54,7 +69,7 @@ import * as types from '../store/types.js'
 					password: '',
 					
 				},
-			
+				isShow:false,
 				  options: [{
 					value: '',
 					label: '中国大陆(默认)'
@@ -93,6 +108,7 @@ import * as types from '../store/types.js'
 					label: '文莱'
 				}],
 				value: '',
+				label:'中国大陆(默认)',
 				loadShow:false,
 
 			}
@@ -179,7 +195,14 @@ import * as types from '../store/types.js'
 					  //清除cookie
 					clearCookie:function () {
 						this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
-					}
+					},
+					 countype(value,label){  //下拉框选中项事件
+						this.value=value
+						this.label=label
+						this.isShow=false;
+						console.log()
+							
+						},
 			 },
 			  watch:{  //实时监听
 				form:{
@@ -219,6 +242,8 @@ import * as types from '../store/types.js'
 .white a{color: #fff}
 
 .el-form{ margin-top: 50px}
+.box-card{ max-height: 50%; bottom: 0;overflow-y: scroll;}
+.el-icon-arrow-down{ position: absolute;top: 15px;right: 15px;color: #fff}
 </style>
 
 

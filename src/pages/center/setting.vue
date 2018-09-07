@@ -31,7 +31,7 @@
                     </router-link>
                 </div>
                    <div class="list_item" >
-                    <router-link to="/authentication">
+                    <router-link to="/changetel">
                         <el-row>
                             <el-col :span="22" >手机号修改</el-col>
                             <el-col :span="2" class="tr"><i class="el-icon-arrow-right"></i></el-col>

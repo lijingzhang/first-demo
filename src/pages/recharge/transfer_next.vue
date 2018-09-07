@@ -39,6 +39,7 @@
 
 			}
 		},
+	
 		methods:{
 		 nextStep: function(){
 			   this.$router.push({path:'/transfer?'+'receivecount='+this.form.receivecount})

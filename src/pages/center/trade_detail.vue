@@ -2,8 +2,8 @@
   <div class="wrapper" ref="wrapper">
       <el-container  >
     <v-header title="交易详情">
-        <router-link to="/index" slot="left">返回</router-link>
-         <router-link to="/index" slot="right">完成</router-link>
+        <!-- <router-link to="/index" slot="left">返回</router-link> -->
+         <router-link to="/centerindex" slot="right">完成</router-link>
     </v-header>
    
     <el-main  >
@@ -13,23 +13,23 @@
       <div class="p15">
         <el-row>
             <el-col :span="6">交易类型</el-col>
-            <el-col :span="18" >{{this.$route.query.type}}</el-col>
+            <el-col :span="18" >{{Arr.type}}</el-col>
         </el-row>  
          <el-row>
             <el-col :span="6" >交易金额</el-col>
-            <el-col :span="18" >{{this.$route.query.countType | fhType}}{{this.$route.query.moneynum}}</el-col>
+            <el-col :span="18" >{{Arr.countType | fhType}}{{Arr.moneynum}}</el-col>
         </el-row>  
         <el-row>
             <el-col :span="6" >交易对象</el-col>
-            <el-col :span="18" >{{this.$route.query.receivecount}}</el-col>
+            <el-col :span="18" >{{Arr.receivecount}}</el-col>
         </el-row>  
          <el-row>
             <el-col :span="6" >交易时间</el-col>
-            <el-col :span="18" >{{this.$route.query.date}}</el-col>
+            <el-col :span="18" >{{Arr.datatime}}</el-col>
         </el-row>  
          <el-row>
             <el-col :span="6" >流 水 号</el-col>
-            <el-col :span="18">{{this.$route.query.snumber}}</el-col>
+            <el-col :span="18">{{Arr.snumber}}</el-col>
         </el-row>  
         
       </div>
@@ -44,10 +44,13 @@
 export default {
   data () {
     return {
-     
+     Arr:[]
     }
   },
-
+	 created() {
+		let	Data = JSON.parse(localStorage.getItem('confirmOrderData'));  
+			this.Arr=Data
+			},
   methods: {
  
   },

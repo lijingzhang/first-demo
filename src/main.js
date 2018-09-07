@@ -17,19 +17,21 @@ import './assets/scss/common.scss'                      //加载公共样式
 import common from './assets/js/common.js'            //加载公共脚本
 import store from './store/store'
 import * as types from './store/types'
-import mui from 'vue-awesome-mui'           //监听手机返回键，按两下退出应用
-
+// import mui from 'vue-awesome-mui'           //监听手机返回键，按两下退出应用
+import VueQr from 'vue-qr'
 
 const router = new VueRouter({
   linkActiveClass: 'active',
   routes
 })
+
+//全局注册组件
 Vue.component('v-distpicker', VDistpicker)
+Vue.component('vue-qr', VueQr)
 Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(VueScroller)
 Vue.use(Element)
 Vue.use(VueRouter)
-Vue.use(mui)
 Vue.prototype.$qs = querystring;
 Vue.prototype.$common = common
 Object.keys(filters).forEach(key => {  

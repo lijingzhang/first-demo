@@ -42,5 +42,6 @@ let loanStatus=value => {
         return "已还款"
     }
    }
+   
   export { countType ,tofix,loanStatus,fhType}
 //export { evenNumbers, capitalize }

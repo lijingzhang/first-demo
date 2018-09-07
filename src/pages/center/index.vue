@@ -197,7 +197,7 @@ export default {
                         this.$confirm(response.data.message, '提示', {
                         confirmButtonText: '确定',
                         showClose:false,
-                            showCancelButton:false,
+                        showCancelButton:false,
                         center:true
                         })
                     }
@@ -244,9 +244,13 @@ export default {
                this.$confirm(response.data.message, '提示', {
                 confirmButtonText: '确定',
                 showClose:false,
-                    showCancelButton:false,
+                showCancelButton:false,
                 center:true
                 })
+                .then(() => {
+                      this.$router.push("/login")
+                })
+
             }
             else{
                 this.userInfo.avatar=response.data.img;

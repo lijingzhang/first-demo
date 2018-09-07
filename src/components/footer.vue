@@ -27,7 +27,7 @@
 		left: 0;
 		bottom: 0;
 		width:100%;
-		display: inline-block;
+		display: inline-block;z-index: 9999;
 	}
     .footer .right {
 			right: 10px;

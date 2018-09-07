@@ -6,6 +6,7 @@
             <router-link to="/"转账记录></router-link>
 		</v-header>
 		<el-main>
+           <div class="popContainer" v-show="loadShow"> <div  class="comomtips" ><i class="el-icon-loading"></i>转账中...</div></div>
 			<div class=" p15 mt30">
 				<el-form ref="form"  :model="form"  label-width="80px">
                     <div class="tc mb40">
@@ -86,6 +87,7 @@
                 Show:false,
                  isShow:false,
                  countArr:[],
+                 loadShow:false
 
 			}
         },
@@ -94,7 +96,9 @@
             this.loadcount();  //加载自己的账户
             	this.$nextTick(()=>{
 				this.$refs.cardid.$el.children[0].setAttribute('readOnly','readOnly');
-			})
+            });
+          
+         
         },
 		methods: {
 			onSubmit(formName) {
@@ -109,6 +113,7 @@
                   .then(response=>{
                       this.Show=false;
                         if(response.data.code=='success'){
+                        this.loadShow=true;
                         //   this.$confirm("转账成功！", '提示', {
                         //         confirmButtonText: '确定',
                         //         center: true,
@@ -118,12 +123,27 @@
                         //     .then(() => {
                         //         this.$router.push("/trade_log")
                         //     })
-                        setTimeout( () => {
+                        let type='转账'
+                        let  d =new Date();
+                        let  resDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
+                        let datas = {
+                            type,
+                            moneynum:this.form.moneynum,
+                            receivecount:this.form.receivecount,
+                            countType:this.countType,
+                            snumber:response.data.message,
+                            datatime:resDate
 
-                            this.$router.push("/tradeDetail?type=转账&&moneynum="+this.form.moneynum+"&&receivecount="+this.form.receivecount+"&&snumber="+response.data.snumber+"&&date="+response.data.date+"&&countType="+this.countType)
+                            };
+                         localStorage.setItem('confirmOrderData', JSON.stringify(datas)); 
+                        //  console.log(JSON.stringify(datas));   
+                        setTimeout( () => {
+                            this.$router.push("/tradeDetail")
+                                console.log("123")
                         },1000)
                         }
                         else{
+                            this.form.payPwd="";
                              this.$confirm(response.data.message, '提示', {
                                 confirmButtonText: '确定',
                                 center: true,
@@ -134,7 +154,7 @@
 					
 					})
 					.catch(error=>{
-					alert("网路错误，不能访问");
+					  console.log(error);
 					});
 				
 				
@@ -166,7 +186,9 @@
                     }
                 }
 
-            }
+            },
+            
+           
         },
         watch:{  //实时监听
             form:{

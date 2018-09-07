@@ -1,20 +1,21 @@
 <template>
 	<div class="height100">
 	<el-container class="height100">
-		<v-header title="小七">
+		<v-header :title='countArr.username'>
 			<span slot="left"  @click="$common.back()">返回</span>
-            
 		</v-header>
+      
 		<el-main>
 			<div class="p15">
                 <el-row>
-                    <el-col class="mt15" :span="20">
+                    <div class="datatime"><span>{{countArr.createTime}}</span></div>
+                    <el-col class="mt15" :span="20" >
                         <el-row>
                             <el-col :span="4">
-                                <img src="../../assets/images/head.png" width="50" alt="">
+                                <img src="../../assets/images/head.png" width="40" alt="">
                             </el-col>
                             <el-col :span="20">
-                                <div class="l_chatbg chatbg"><i></i>最近怎么样</div>
+                                <div class="l_chatbg chatbg"><i></i>{{countArr.content}}</div>
                             </el-col>
                         </el-row>
                         
@@ -26,7 +27,7 @@
                                 <div class="r_chatbg chatbg"><i></i>很好很好很好很好很好很好很好很好很好很好很好很好</div>
                             </el-col>
                             <el-col :span="4">
-                                <img src="../../assets/images/head.png" width="50" alt="">
+                                <img src="../../assets/images/head.png" width="40" alt="">
                             </el-col>
                         </el-row>
                     </el-col>
@@ -36,7 +37,7 @@
                                 <div class="r_chatbg chatbg"><i></i>很好很好很好很好很</div>
                             </el-col>
                             <el-col :span="4">
-                                <img src="../../assets/images/head.png" width="50" alt="">
+                                <img src="../../assets/images/head.png" width="40" alt="">
                             </el-col>
                         </el-row>
                     </el-col>
@@ -46,10 +47,10 @@
         <footer class="footer">
             <el-row :gutter="10">
                 <el-col :span="18">
-                   <div class="textarea" contenteditable="true"></div>
+                   <div class="textarea" contenteditable="true" ref="content"></div>
                 </el-col>
                 <el-col :span="4">
-                    <el-button  type="primary" class="f12 sendbtn"  @click="sendcode()">发送</el-button>  
+                    <el-button  type="primary" class="f12 sendbtn"  @click="sendMessage()">发送</el-button>  
                 </el-col>
             </el-row>
 	    </footer>
@@ -63,27 +64,62 @@
         data() {
 			return {
 				form:{
-					num:'',
-					countType:'',
-				},
-				countArr:[],
-				isShow:false,
-				
+					receivecount:'18193412366',
+                    title:'哈哈哈哈',
+                    content:'',
+                    username:''
+                },
+                countArr:[]
 			}
 		},
-	
+		created(){
+            // this.loadmessage();
+            this.linkpage();
+		},
 		methods:{
-		 nextStep: function(){
-			   this.$router.push({path:'/QRcode?'+'ttype='+this.form.countType+'&&tnum='+this.form.num})
-			},
-			 countype(item){  //下拉框选中项事件
-               this.form.countType=item;
-               this.isShow=false;
-                
-			},
-			 loadcountType(){
-				this.$http.get('/count/queryMoneyType').then(response => {
+             linkpage(){
+				this.$http.get('/message/queryMessage?id='+this.$route.query.id).then(response => {
 						this.countArr=response.data;
+					})
+					.catch(error=>{
+						//超时之后在这里捕抓错误信息.
+							console.log(error);
+					});
+						
+			},
+            loadmessage(){
+				this.$http.get('/message/querysend').then(response => {
+                        this.sendArr=response.data;
+						console.log(this.sendArr)
+					})
+					.catch(error=>{
+						//超时之后在这里捕抓错误信息.
+							console.log(error);
+					});
+						
+			},
+			 sendMessage(){
+                this.form.content=this.$refs.content.innerText;
+                var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
+				this.$http.post('/message/send',formData).then(response => {
+                   	var Data=response.data;
+						if(Data.code=="fail"){
+						 this.$confirm(Data.message, '提示', {
+							confirmButtonText: '确定',
+							center: true,
+							showClose:false,
+							showCancelButton:false
+							})
+						}
+						else{
+							this.countArr=Data;
+                            this.$message({
+                                message: '发送成功',
+                                type: 'success',
+                                duration:1000
+                                });
+                            }
+						
 					})
 					.catch(error=>{
 						//超时之后在这里捕抓错误信息.

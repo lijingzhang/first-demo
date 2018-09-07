@@ -6,7 +6,7 @@
           <div class="sub_header">
            <el-row>
             <el-col :span="12">
-               <div><router-link to="/QRcode?ttype=CNY&&tnum=0"><img class="img3x pb10" src="../assets/images/sk_code.png" alt=""></router-link></div>
+               <div><router-link to="/QRcode?countType=CNY&&num=0"><img class="img3x pb10" src="../assets/images/sk_code.png" alt=""></router-link></div>
                <div>收款码</div>
             </el-col>
             <el-col :span="12">
@@ -23,12 +23,7 @@
           <div id="bcid">
             <div  class="comomtips"><i class="el-icon-loading"></i>载入中...</div>
           </div>
-          <!-- <div class="ffooter">
-              <button @click="startRecognize">1.创建控件</button>
-              <button @click="startScan">2.开始扫描</button>
-              <button @click="cancelScan">3.结束扫描</button>
-              <button @click="closeScan">4.关闭控件</button>
-          </div> -->
+        
       </div>
     
           <el-row>
@@ -93,7 +88,7 @@
           </el-row>
          
         </el-main>
-    	<v-footer ></v-footer>
+    	<v-footer @click.native="show=false;closeScan()"></v-footer>
     </el-container>
   </div>
 </template>
@@ -112,6 +107,7 @@ export default {
     
   },
   methods:{
+    //项目最后打包成app，用的是hBuilder打的包，刚好hBuilder打包集成H5+sdk,就可以直接用人家的sdk了。
        //创建扫描控件
       startRecognize() {
         this.$nextTick(()=>{
@@ -145,13 +141,13 @@ export default {
               setTimeout( () => {
                     that.$router.push(that.codeUrl);
                     that.show=false;
-                }, 1000);
+                }, 500);
             }
           }, 500);
            setTimeout( () => {   //延时缓冲加载
                that.startScan();
 
-            }, 500);
+            }, 300);
          
       },
       //开始扫描
@@ -190,27 +186,18 @@ export default {
 }
 .img3x{width: imgpx(300px)}
 .img2x{width: imgpx(200px)}
- .scan {
-   
+ .scan {z-index: 999;
     #bcid {
       width: 100%;
       position: absolute;
       left: 0;
       right: 0;
-      top: 0;
       bottom:0;
       text-align: center;
       color: #fff;
-      background: #ccc;min-height: 100%;
+      background: #ccc;min-height: 100%;padding: 0;margin: 0;
     }
-   .ffooter {
-      position: absolute;
-      left: 0;
-      bottom: 1rem;
-      height: 2rem;
-      line-height: 2rem;
-      z-index: 2;
-    }
+ 
   }
-  .popContainer{ bottom: 55px}
+
 </style>
