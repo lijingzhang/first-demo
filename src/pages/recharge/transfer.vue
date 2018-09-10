@@ -78,6 +78,7 @@
                 form: {//form名称
                     moneynum:'',
                     receivecount: '',
+                    receivetype:'',
                     countid:'',
                     payPwd:'',
 					
@@ -104,7 +105,7 @@
 			onSubmit(formName) {
                 this.form.receivecount=this.$route.query.receivecount; //上个页面传递下来的对方账户参数
                     var formData= this.$qs.stringify(this.form) // form为form名称获取表单数据
-                     const params  = {moneynum: this.form.moneynum, receivecount: this.form.receivecount,countid:this.form.countid,payPwd:this.form.payPwd}
+                     const params  = {moneynum: this.form.moneynum, receivecount: this.form.receivecount,countid:this.form.countid,payPwd:this.form.payPwd,receivetype:this.form.receivetype}
 					 this.$http.get("/count/switch",{params:params}, {
                       headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -175,7 +176,7 @@
                this.cardid=cardId+'('+countType+')';
                this.countType=countType;
                this.isShow=false;
-                
+               this.form.receivetype=countType
             },
             //点击弹出框以外的区域隐藏弹出框
             hidePanel: function(event){

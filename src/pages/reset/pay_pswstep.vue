@@ -1,32 +1,29 @@
 <template>
 	<div >
 	<el-container>
-		<v-header title="资金密码修改">
+		<v-header title="认证原始密码">
 			<span slot="left"  @click="$common.back()">返回</span>
 		</v-header>
 		<el-main>
 			<div class="  border-t10">
 				<el-form ref="form"  :model="form"  label-width="80px">
 				
-					  <!-- <el-form-item label="账户选择" prop="cardid">
+					  <el-form-item label="账户选择" prop="cardid">
                         <el-input v-model="cardid" @click.native="isShow=true" ref="cardid" placeholder="请选择账户" class="pr30"></el-input>
                         <i class="gray_right"></i>
-                    </el-form-item> -->
-					<el-form-item label=" 新密码" prop="password">
-						<el-input v-model="form.payPwd" type="password"   placeholder="请输入新密码"></el-input>
-					</el-form-item>
-					<el-form-item label="重复密码" prop="password">
-						<el-input v-model="newpassword" type="password"   placeholder="请再次输入新密码"></el-input>
+                    </el-form-item>
+					<el-form-item label="旧密码" prop="password">
+						<el-input v-model="form.payPwd" type="password"   placeholder="请输入旧支付密码"></el-input>
 					</el-form-item>
 					<div class="pl15 pr15">
-						<el-button class="w100 mb15 mt40" type="primary" disabled="disabled" ref="button" @click="onSubmit('form')">重置密码</el-button>
+						<el-button class="w100 mb15 mt40" type="primary" disabled="disabled" ref="button" @click="onSubmit('form')">下一步</el-button>
 					</div>
 					
 				</el-form>
 			</div>	
             
 		</el-main>
-		 <!-- <div class="popContainer transfer" v-if="isShow" @click="isShow=false">
+		 <div class="popContainer transfer" v-if="isShow" @click="isShow=false">
             <el-card class="box-card ">
                 <div slot="header" class="clearfix">
                     <span>选择账户</span>
@@ -42,7 +39,7 @@
                 </div>
             
             </el-card>
-        </div> -->
+        </div>
 	</el-container>
 
 </div>
@@ -55,33 +52,26 @@
 			form: {//form名称
 				
 					payPwd: '',
-					id:this.$route.query.id,
+					id:'',
 				},
 				countArr:[],
 				cardid:'',
 				isShow:false,
-				newpassword:'',
 
 			}
 		},
 		created(){
-			//  this.loadcount();  //加载自己的账户
+			 this.loadcount();  //加载自己的账户
+			   this.$nextTick(()=>{
+                this.$refs.cardid.$el.children[0].setAttribute('readOnly','readOnly')
+                })
 		},
 		methods:{
 			onSubmit(formName) {
-				if(this.newpassword!=this.form.payPwd){
-					this.$confirm('两次密码不一致，请重新输入', '提示', {
-						confirmButtonText: '确定',
-						center: true,
-						showClose:false,
-						showCancelButton:false
-					})
-				}
-				else{
 					var params  = new URLSearchParams();
 					params.append('id', this.form.id);
 					params.append('payPwd', this.form.payPwd);
-					this.$http.get("/count/updateCountpwd",{params:params}, {
+					this.$http.get("/count/authCountpwd",{params:params}, {
 					headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
 					}
@@ -89,7 +79,7 @@
 					.then(response=>{
 							var Data=response.data;
 							if(Data.code=="fail"){
-								this.$confirm(Data.message, '提示', {
+								this.$confirm("密码错误", '提示', {
 									confirmButtonText: '确定',
 									center: true,
 									showClose:false,
@@ -97,18 +87,8 @@
 								})
 							}
 							else{
-								setTimeout( () => {
-									this.$confirm("恭喜您，密码修改成功!", '提示', {
-									confirmButtonText: '确定',
-									center: true,
-									showClose:false,
-									showCancelButton:false,
-									callback: action => {
-									this.$router.push("/centerindex")
-									}
-									});
-									
-								}, 1000);
+								
+								this.$router.push("/paypsw?id="+this.form.id)
 							}
 						})
 					.catch(error=>{
@@ -116,36 +96,35 @@
                      console.log(error);
 					});
 					
-					
-				}
+				
 				
 				},
-			
-				//  loadcount(){
-                //     this.$http.get('/count/queryCountByUserid').then(response => {
-                //         this.countArr=response.data;
-                //         var len=this.countArr.length;
-                //     })
-                //     .catch(error=>{
-                //         //超时之后在这里捕抓错误信息.
-                //             console.log(error);
-                //     });
+				
+				 loadcount(){
+                    this.$http.get('/count/queryCountByUserid').then(response => {
+                        this.countArr=response.data;
+                        var len=this.countArr.length;
+                    })
+                    .catch(error=>{
+                        //超时之后在这里捕抓错误信息.
+                            console.log(error);
+                    });
                         
-           		//  },
-				// countype(id,cardId,countType){  //下拉框选中项事件
-				// 	this.form.id=id;
-				// 	this.cardid=cardId+'('+countType+')';
-				// 	this.countType=countType;
-				// 	this.isShow=false;
+           		 },
+				countype(id,cardId,countType){  //下拉框选中项事件
+					this.form.id=id;
+					this.cardid=cardId+'('+countType+')';
+					this.countType=countType;
+					this.isShow=false;
 					
-				// },
+				},
 		},
 		  watch:{  //实时监听
 				form:{
 					handler:function(val,oldval){
 
 						//监听提交按钮状态
-						if(this.form.payPwd!=''){
+						if(this.form.id!=''&&this.form.payPwd!=''){
 							this.$nextTick(()=>{
 								this.$refs.button.$el.removeAttribute('disabled');
 								//去除属性ref=button上的指定class：is-disabled

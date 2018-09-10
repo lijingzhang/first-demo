@@ -22,7 +22,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '192.168.1.84', // can be overwritten by process.env.HOST
+    host: '192.168.1.86', // can be overwritten by process.env.HOST 本地ip地址
     port: 8084, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

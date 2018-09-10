@@ -1,10 +1,13 @@
 
+//测试
 import list from '@/pages/list/list'
+import recharge from '@/pages/recharge/recharge'  //测试
+import category from '@/pages/test/category'  //测试
+
 import index from '@/pages/index'
 import login from '@/pages/login'
 import register from '@/pages/register'
-import recharge from '@/pages/recharge/recharge'  //测试
-import list1 from '@/pages/list/list1'   //测试
+
 import authentication from '@/pages/my/authentication'  
 import account from '@/pages/my/account' 
 import centerindex from '@/pages/center/index' 
@@ -34,8 +37,9 @@ import chatList from '@/pages/chat/chatList'
 
 //设置
 import setpsw from '@/pages/reset/set_psw'
-import paypsw from '@/pages/reset/pay_psw'        //登录前找回密码
-import changetel from '@/pages/reset/change_tel'
+import paypswstep from '@/pages/reset/pay_pswstep'  //认证支付密码 
+import paypsw from '@/pages/reset/pay_psw'          //修改支付密码 
+import changetel from '@/pages/reset/change_tel'   //登录前找回密码
 import changepsw from '@/pages/reset/change_psw'  //登陆后修改密码
 
 
@@ -76,13 +80,7 @@ export default[
         requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
        }, 
     },
-    {
-      path: '/list1',
-      component: list1,
-      meta: { 
-        requireAuth: true // 配置此条，进入页面前判断是否需要登陆 
-       }, 
-    },
+ 
     {
       path: '/authentication',
       component: authentication,
@@ -233,8 +231,22 @@ export default[
          }, 
       },
       {
+        path: '/paypswstep',
+        component: paypswstep,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+      {
         path: '/changepsw',
         component: changepsw,
+        meta: { 
+          requireAuth: true 
+         }, 
+      },
+      {
+        path: '/category',
+        component: category,
         meta: { 
           requireAuth: true 
          }, 

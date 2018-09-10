@@ -10,7 +10,6 @@ import axios from 'axios'                      //使用API所需
 import querystring from 'querystring'
 import './components/components.js'            //加载公共组件脚本
 import VueScroller from 'vue-scroller'        //下拉
-import VueTouch from 'vue-touch'              //滑动事件
 import VDistpicker from 'v-distpicker'          //地址三级联动
 import * as filters from './assets/js/filters.js'  //过滤器
 import './assets/scss/common.scss'                      //加载公共样式
@@ -28,7 +27,6 @@ const router = new VueRouter({
 //全局注册组件
 Vue.component('v-distpicker', VDistpicker)
 Vue.component('vue-qr', VueQr)
-Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(VueScroller)
 Vue.use(Element)
 Vue.use(VueRouter)
