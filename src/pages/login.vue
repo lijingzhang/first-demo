@@ -2,7 +2,7 @@
 	<div class="login_bg">
 	<el-container>
 		<el-main class="p15 pt55 ">
-			<div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i>登录中...</div>
+			<div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i></div>
 			<div class=" pl0">
 				<div class="tc mb15"><img src="../assets/images/logo.png" width="120"></div>
 				<el-form ref="form"  :model="form"  label-width="80px" >

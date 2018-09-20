@@ -124,9 +124,11 @@ h1,h2,h3,h4{margin: 0 }
 color: #fff}
 
 /* 通用提示黑框 */
-.comomtips{  position: fixed;padding: 10px 15px;border-radius: 6px;top: 40%;left:40%;z-index: 9999;background: rgba(0,0,0,0.5);
-    color: #fff;line-height: 2;z-index: 999999;}
-    .el-icon-loading{ font-size: 18px; margin-right: 5px; }
+.comomtips{  position: fixed;padding: 15px;border-radius: 6px;top: 40%;left:42%;background: rgba(0,0,0,0.8);
+    color: #fff;z-index: 999999;
+    .el-icon-loading{ font-size: 22px;  }
+}
+    
 .el-dialog__body{    padding: 15px 0;}
 
 //登录注册页
@@ -181,11 +183,13 @@ color: #fff}
 //category测试css
 .pb0.el-container{ padding-bottom:0}
 .el-submenu__title{ text-align: left}
-.el-aside{
-    .el-menu-item{padding: 0; text-align: left;min-width: 120px}
+.el-aside{ min-width: 22%;
+    .el-menu-item{padding:0 !important; text-align: center;    min-width: 95px;}
+    .el-submenu__title{padding:0 !important; }
+    .el-submenu__icon-arrow{ right:8%;}
 }
 .pb0.el-main{ padding-top:0}
-
+footer .el-badge__content.is-fixed{ top:12px;right: 8px; font-size:10px;height: auto; line-height: 1; padding:3px;    min-width: 12px;;border-radius: 50%; border: none;}
 
 
 

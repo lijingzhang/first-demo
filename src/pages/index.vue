@@ -21,14 +21,14 @@
               <span slot="left"  @click="show=false;closeScan()">返回</span>
             </v-header>
           <div id="bcid">
-            <div  class="comomtips"><i class="el-icon-loading"></i>载入中...</div>
+            <div  class="comomtips"><i class="el-icon-loading"></i></div>
           </div>
         
       </div>
     
           <el-row>
             <el-col :span="8" >
-              <router-link  to="/">
+              <router-link  to="/fruit?id=123">
                 <div><img class="img2x pb10" src="../assets/images/icon_tx.png"  alt=""></div>
                 <div>提现</div>
               </router-link>

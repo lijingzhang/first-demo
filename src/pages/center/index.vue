@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" ref="wrapper">
       <el-container  >
-    <div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i>替换中...</div>
+    <div  class="comomtips" v-show="loadShow"><i class="el-icon-loading"></i></div>
          <el-main style="padding-top:0">
              <div class="headcenter">
                  <div class="top tc">

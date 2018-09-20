@@ -60,12 +60,27 @@ export default {
   methods: {
     loadData() {
           this.$http.get('/opera/queryByUserid').then(res => {
-                    var result = res.data;
+       
+            if(res.data.code=="fail"){
+                this.$confirm(res.data.message, '提示', {
+                  confirmButtonText: '确定',
+                  showClose:false,
+                      showCancelButton:false,
+                  center:true
+                  }) 
+                  .then(() => {
+                      this.$router.push("/login")
+                })
+              }
+              else{
+                  var result = res.data;
                    this.dataArr=result;
                     this.datalength=result.length;//赋值
-                }).catch((err) => {   //显示异常
-                    console.log(err);
-                });
+              }
+                  
+            }).catch((err) => {   //显示异常
+                console.log(err);
+            });
 
     },
 

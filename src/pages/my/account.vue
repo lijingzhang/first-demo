@@ -5,7 +5,7 @@
 			<span slot="left"  @click="$common.back()">返回</span>
 		</v-header>
 		<el-main>
-            <div v-show="loadshow" class="comomtips"><i class="el-icon-loading"></i>加载中..</div>
+            <div v-show="loadshow" class="comomtips"><i class="el-icon-loading"></i></div>
 			<div class=" pl0">
                  <div v-show="dataArr.length==0" class="mt10 gray pb10">暂无数据</div>
              <div class="list_group" v-for="data in dataArr">

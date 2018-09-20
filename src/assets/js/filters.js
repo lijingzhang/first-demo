@@ -34,6 +34,7 @@ let tofix = value => {
    return value.toFixed(4)
   }
 
+  //状态
 let loanStatus=value => {
     if(value==0){
         return '未还款'
@@ -42,6 +43,13 @@ let loanStatus=value => {
         return "已还款"
     }
    }
-   
-  export { countType ,tofix,loanStatus,fhType}
+
+  //截取字符串 
+  let MaxLength=value=> {
+    if(value&& value.length > 10) {
+        value= value.substring(0,10)+ '...';
+       }
+        return value;
+} 
+  export { countType ,tofix,loanStatus,fhType,MaxLength}
 //export { evenNumbers, capitalize }

@@ -3,6 +3,8 @@
 import list from '@/pages/list/list'
 import recharge from '@/pages/recharge/recharge'  //测试
 import category from '@/pages/test/category'  //测试
+import fruit from '@/pages/test/fruit'  
+import tabmenu from '@/pages/test/tabmenu' 
 
 import index from '@/pages/index'
 import login from '@/pages/login'
@@ -244,12 +246,19 @@ export default[
           requireAuth: true 
          }, 
       },
+     
       {
         path: '/category',
         component: category,
-        meta: { 
-          requireAuth: true 
-         }, 
+        children: [
+          {path: '/fruit/:id',component: fruit}, //取参this.$route.params.id
+         
+        ]
+      },
+      {
+        path: '/tabmenu',
+        component: tabmenu,
+      
       },
 
   ]

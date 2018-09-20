@@ -18,15 +18,15 @@
             <div class="list_group p15" >
                 <div class="list_head">
                     <el-row>
-                        <el-col :span="12" class="tl">更新</el-col>
+                        <el-col :span="12" class="tl">更新时间</el-col>
                         <el-col :span="12" class="tr">{{date}}</el-col>
                     </el-row>  
                     </div>
                     <div class="list_head">
                         <el-row>
                             <el-col :span="10" >币种</el-col>
-                            <el-col :span="7" >买</el-col>
-                            <el-col :span="7" >卖</el-col>
+                            <el-col :span="7" >买入价</el-col>
+                            <el-col :span="7" >卖出价</el-col>
                         </el-row>  
                     </div>
                     <div class="list_item" >

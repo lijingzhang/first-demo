@@ -11,8 +11,8 @@
              <div class="list_head">
                 <el-row>
                     <el-col :span="10" >币种</el-col>
-                    <el-col :span="7" >买</el-col>
-                    <el-col :span="7" >卖</el-col>
+                    <el-col :span="7" >买入价</el-col>
+                    <el-col :span="7" >卖出价</el-col>
                 </el-row>  
             </div>
                 <div class="list_item" v-for="obj in dataObj">

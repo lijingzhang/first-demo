@@ -6,7 +6,7 @@
             <router-link to="/"转账记录></router-link>
 		</v-header>
 		<el-main>
-           <div class="popContainer" v-show="loadShow"> <div  class="comomtips" ><i class="el-icon-loading"></i>转账中...</div></div>
+           <div class="popContainer" v-show="loadShow"> <div  class="comomtips" ><i class="el-icon-loading"></i></div></div>
 			<div class=" p15 mt30">
 				<el-form ref="form"  :model="form"  label-width="80px">
                     <div class="tc mb40">
